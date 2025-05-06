@@ -57,7 +57,7 @@ def callback(ch, method, properties, body):
         ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)
 
 # Conexión a RabbitMQ
-connection = connect_to_rabbitmq()
+connection = connect_to_rabbitmq(retries=20, delay=3)
 channel = connection.channel()
 
 # Declarar la cola y el intercambio
