@@ -16,7 +16,7 @@ def generate_weather_data():
 def connect_to_rabbitmq(retries=5, delay=5):
     for i in range(retries):
         try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq', 5672, '/', pika.PlainCredentials('user', 'pass')))
+            connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672, '/', pika.PlainCredentials('user', 'pass')))
             print("Conexión exitosa a RabbitMQ")
             return connection
         except pika.exceptions.AMQPConnectionError:
@@ -25,7 +25,7 @@ def connect_to_rabbitmq(retries=5, delay=5):
     raise Exception("No se pudo conectar a RabbitMQ después de varios intentos")
 
 # Conexión a RabbitMQ
-connection = connect_to_rabbitmq()
+connection = connect_to_rabbitmq(retries=10, delay=5)
 channel = connection.channel()
 
 # Declarar el intercambio en RabbitMQ
